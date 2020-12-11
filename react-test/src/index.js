@@ -4,10 +4,9 @@ import ReactDOM from 'react-dom';
 import App from './component/App';
 // import SignupForm  from './component/SignupForm/SignupForm';
 
-
 ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );

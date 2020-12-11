@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import TaskList from './TaskList';
 import TaskEditor from './TaskEditor';
 import createTask from './create-task';
 import Filter from './Filter';
+import Modal from './Modal/Modal';
+import Layout from './Layout/Layout';
 // import PropTypes from 'prop-types';
 
 // const newTask = createTask()
@@ -12,6 +14,7 @@ export default class App extends Component {
   state = {
     tasks: [],
     filter: '',
+    showModal: false,
   };
 
   componentDidMount() {
@@ -22,6 +25,8 @@ export default class App extends Component {
     console.log('componentDidUpdate');
     localStorage.setItem('tasks', JSON.stringify(this.state.tasks));
   }
+
+  componentWillUnmount() {}
 
   changeFilter = filter => {
     console.log(filter);
@@ -84,13 +89,31 @@ export default class App extends Component {
     }));
   };
 
-  render() {
-    const { filter, tasks } = this.state;
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
 
+  render() {
+    const { filter, tasks, showModal } = this.state;
     const visibleTasks = this.getVisibleTasks();
     return (
-      <>
-        <TaskEditor onAddTask={this.addTask} />
+      <Layout>
+        <button type="button" onClick={this.toggleModal}>
+          Open Modal
+        </button>
+
+        {showModal && (
+          <Modal onClose={this.toggleModal}>
+            <h1>Hello</h1>
+            <p>Lorem 2002lkjsdfgh;ldfjkshglkjnklj</p>
+            <button type="button" onClick={this.toggleModal}>
+              Close Modal
+            </button>
+          </Modal>
+        )}
+        {/* <TaskEditor onAddTask={this.addTask} />
         {tasks.length > 1 && (
           <Filter value={filter} onChangeFilter={this.changeFilter} />
         )}
@@ -100,8 +123,8 @@ export default class App extends Component {
             onRemoveTask={this.removeTask}
             onUpdateTask={this.updateCompleted}
           />
-        )}
-      </>
+        )} */}
+      </Layout>
     );
   }
 }
